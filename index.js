@@ -1,16 +1,23 @@
-function submitData() {
-  return fetch('https://anapioficeandfire.com/api/books')
-    .then(resp => resp.json())
-    .then(resp => renderBooks(resp));
+// Add your code here
+function submitData( name, email ) {
+  return fetch( 'http://localhost:3000/users', {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+        "Accept": "application/json"
+      },
+      body: JSON.stringify( {
+        name,
+        email
+      } )
+    } )
+    .then( function ( response ) {
+      return response.json()
+    } )
+    .then( function ( object ) {
+      document.body.innerHTML = object[ "id" ]
+    } )
+    .catch( function ( error ) {
+      document.body.innerHTML = error.message
+    } )
 }
-function renderBooks(books) {
-  const main = document.querySelector('main')
-  books.forEach(book => {
-    const h2 = document.createElement('h2');
-    h2.innerHTML = book.name
-    main.appendChild(h2)
-  });
-}
-document.addEventListener('DOMContentLoaded', function() {
-  submitData();
-})
